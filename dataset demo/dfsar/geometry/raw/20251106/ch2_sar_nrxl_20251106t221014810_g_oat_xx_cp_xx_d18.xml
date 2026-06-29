@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Product_Observational xmlns="http://pds.nasa.gov/pds4/pds/v1" xmlns:isda="http://pds.nasa.gov/pds4/isda/v1" xmlns:pds="http://pds.nasa.gov/pds4/pds/v1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pds.nasa.gov/pds4/pds/v1 http://pds.nasa.gov/pds4/pds/v1/PDS4_PDS_1B00.xsd">
+     <Identification_Area>
+     	<logical_identifier>urn:isro:isda:ch2_cho:sar_calibrated:ch2_sar_nrxl_20251106t221014810_g_oat_xx_cp_xx_d18</logical_identifier>
+        <version_id>1.0</version_id>
+        <title>Chandrayaan-2 Dual frequency L and S band SAR</title>
+        <information_model_version>1.11.0.0</information_model_version>
+        <product_class>Product_Observational</product_class>
+        <Modification_History>
+            <Modification_Detail>
+                <modification_date>2025-05-09</modification_date>
+                <version_id>1.0</version_id>
+                <description>PDS4 product label created by SAR DP SAC-ISRO team</description>
+            </Modification_Detail>
+        </Modification_History>       
+    </Identification_Area>
+    <Observation_Area>
+        <Time_Coordinates>
+            <start_date_time>2025-11-06T22:10:13.662Z</start_date_time>
+            <stop_date_time>2025-11-06T22:11:41.013Z</stop_date_time>
+        </Time_Coordinates>
+        <Primary_Result_Summary>
+            <purpose>Science</purpose>
+            <processing_level>Calibrated</processing_level>
+        </Primary_Result_Summary>
+        <Investigation_Area>
+            <name>Chandrayaan-2</name>
+            <type>Mission</type>
+            <Internal_Reference>
+                <lidvid_reference>urn:isro:isda:context:investigation.chandrayaan-2::1.0</lidvid_reference>
+                <reference_type>data_to_investigation</reference_type>
+            </Internal_Reference>
+        </Investigation_Area>
+	<Observing_System>
+            <Observing_System_Component>
+                <name>Chandrayaan-2 Orbiter</name>
+                <type>Spacecraft</type>
+            </Observing_System_Component>
+            <Observing_System_Component>
+                <name>Dual frequency L and S band SAR</name>
+                <type>Instrument</type>
+		<description>
+                Chandrayaan-2 Dual Frequency SAR operates in StripMap mode with a nominal swath of 10 Km.
+                Data is acquired in various modes i.e. Circular/Dual/Quad(Full Polarimetric).
+                The antenna beam-limited footprint varies from about 22.5 Km to 34 Km for L-band and from 11.2 Km to 16.8 Km for S-band, over the range coverage region from 16 Km to 70 Km off-nadir.
+		</description>
+            </Observing_System_Component>
+        </Observing_System>
+        <Target_Identification>
+            <name>Moon</name>
+	    <type>Satellite</type>
+            <description>Natural Satellite of Earth</description>
+        </Target_Identification>
+    </Observation_Area>
+    <File_Area_Observational>
+        <File>
+            <file_name>ch2_sar_nrxl_20251106t221014810_g_oat_xx_cp_xx_d18.csv</file_name>
+            <local_identifier>STREAM_DELIMITED_CSV_FILE_ID</local_identifier>
+            <creation_date_time>2025-11-12T01:25:40Z</creation_date_time>
+            <file_size unit="byte">50171</file_size>
+            <records>206</records>
+            <md5_checksum>56e396fb7ba85b895031e7d2c972796a</md5_checksum>
+        </File>
+	<Table_Delimited>
+            <local_identifier>STREAM_CSV_ID</local_identifier>
+            <offset unit="byte">201</offset>
+            <parsing_standard_id>PDS DSV 1</parsing_standard_id>
+            <records>206</records>
+            <record_delimiter>Carriage-Return Line-Feed</record_delimiter>
+            <field_delimiter>Comma</field_delimiter>
+            <Record_Delimited>
+                <fields>17</fields>
+                <groups>0</groups>
+                <maximum_record_length unit="byte">256</maximum_record_length>
+		<Field_Delimited>
+                    <name>Absolute Time</name>
+                    <field_number>1</field_number>
+                    <data_type>ASCII_String</data_type>
+                    <maximum_field_length unit="byte">18</maximum_field_length>
+                     <unit>sec</unit>
+                    <description>Absolute Time in UTC</description>
+                </Field_Delimited>
+                <Field_Delimited>
+                    <name>Time</name>
+                    <field_number>2</field_number>
+                    <data_type>ASCII_Date_Time_YMD</data_type>
+                    <maximum_field_length unit="byte">23</maximum_field_length>
+                    <description>
+                       	Time in UTC 
+                    </description>
+                </Field_Delimited>
+		<Field_Delimited>
+                    <name>x</name>
+                    <field_number>3</field_number>
+                    <data_type>ASCII_Real</data_type>
+                    <maximum_field_length unit="byte">18</maximum_field_length>
+                     <unit>meter</unit>
+                    <description>
+                        Satellite x position in Lunar Fixed Frame.
+                    </description>
+                </Field_Delimited>
+		<Field_Delimited>
+                    <name>y</name>
+                    <field_number>4</field_number>
+                    <data_type>ASCII_Real</data_type>
+                    <maximum_field_length unit="byte">18</maximum_field_length>
+		     <unit>meter</unit>
+                     <description> 
+                        Satellite y position in Lunar Fixed Frame.
+                    </description>
+	        </Field_Delimited>
+		<Field_Delimited>
+                    <name>z</name>
+                    <field_number>5</field_number>
+                    <data_type>ASCII_Real</data_type>
+                    <maximum_field_length unit="byte">18</maximum_field_length>
+                     <unit>meter</unit>
+		     <description> 
+                        Satellite z position in Lunar Fixed Frame.
+                    </description>
+		</Field_Delimited>
+	        <Field_Delimited>
+                    <name>xdot</name>
+                    <field_number>6</field_number>
+                    <data_type>ASCII_Real</data_type>
+                    <maximum_field_length unit="byte">18</maximum_field_length>
+                     <unit>meter/sec</unit>
+		     <description> 
+                        Velocity of satellite in x direction.
+                    </description>
+		</Field_Delimited>
+	        <Field_Delimited>
+                    <name>ydot</name>
+                    <field_number>7</field_number>
+                    <data_type>ASCII_Real</data_type>
+                    <maximum_field_length unit="byte">18</maximum_field_length>
+                     <unit>meter/sec</unit>
+		     <description> 
+                        Velocity of satellite in y direction.
+                    </description>
+		</Field_Delimited>
+	        <Field_Delimited>
+                    <name>zdot</name>
+                    <field_number>8</field_number>
+                    <data_type>ASCII_Real</data_type>
+                    <maximum_field_length unit="byte">18</maximum_field_length>
+                     <unit>meter/sec</unit>
+		     <description> 
+                        Velocity of satellite in z direction.
+                    </description>
+		</Field_Delimited>
+	        <Field_Delimited>
+                    <name>phi</name>
+                    <field_number>9</field_number>
+                    <data_type>ASCII_Real</data_type>
+                    <maximum_field_length unit="byte">18</maximum_field_length>
+                     <unit>degree</unit>
+		     <description> 
+                        Libration Angle : Conversion Angle from Lunar Central Inertial frame to Lunar Fixed Frame.
+                    </description>
+		</Field_Delimited>
+	        <Field_Delimited>
+                    <name>psi</name>
+                    <field_number>10</field_number>
+                    <data_type>ASCII_Real</data_type>
+                    <maximum_field_length unit="byte">18</maximum_field_length>
+                     <unit>degree</unit>
+		     <description> 
+                        Libration Angle : Conversion Angle from Lunar Central Inertial frame to Lunar Fixed Frame.
+                    </description>
+		</Field_Delimited>
+	        <Field_Delimited>
+                    <name>theta</name>
+                    <field_number>11</field_number>
+                    <data_type>ASCII_Real</data_type>
+                    <maximum_field_length unit="byte">18</maximum_field_length>
+                     <unit>degree</unit>
+		     <description> 
+                        Libration Angle : Conversion Angle from Lunar Central Inertial frame to Lunar Fixed Frame.
+                    </description>
+		</Field_Delimited>
+	        <Field_Delimited>
+                    <name>phidot</name>
+                    <field_number>12</field_number>
+                    <data_type>ASCII_Real</data_type>
+                    <maximum_field_length unit="byte">18</maximum_field_length>
+                     <unit>degree/sec</unit>
+		     <description> 
+                        Libration Angle rate : Rate of change of Libration angle.
+                    </description>
+		</Field_Delimited>
+	        <Field_Delimited>
+                    <name>psidot</name>
+                    <field_number>13</field_number>
+                    <data_type>ASCII_Real</data_type>
+                    <maximum_field_length unit="byte">18</maximum_field_length>
+                     <unit>degree/sec</unit>
+		     <description> 
+                        Libration Angle rate : Rate of change of Libration angle.
+                    </description>
+		</Field_Delimited>
+	        <Field_Delimited>
+                    <name>thetadot</name>
+                    <field_number>14</field_number>
+                    <data_type>ASCII_Real</data_type>
+                    <maximum_field_length unit="byte">18</maximum_field_length>
+                     <unit>degree/sec</unit>
+		     <description> 
+                        Libration Angle rate : Rate of change of Libration angle.
+                    </description>
+		</Field_Delimited>
+	        <Field_Delimited>
+                    <name>roll</name>
+                    <field_number>15</field_number>
+                    <data_type>ASCII_Real</data_type>
+                    <maximum_field_length unit="byte">18</maximum_field_length>
+                     <unit>degree</unit>
+		     <description> 
+                        Roll Angle.
+                    </description>
+		</Field_Delimited>
+	        <Field_Delimited>
+                    <name>pitch</name>
+                    <field_number>16</field_number>
+                    <data_type>ASCII_Real</data_type>
+                    <maximum_field_length unit="byte">18</maximum_field_length>
+                     <unit>degree</unit>
+		     <description> 
+                        Pitch Angle.
+                    </description>
+		</Field_Delimited>
+	        <Field_Delimited>
+                    <name>yaw</name>
+                    <field_number>17</field_number>
+                    <data_type>ASCII_Real</data_type>
+                    <maximum_field_length unit="byte">18</maximum_field_length>
+                     <unit>degree</unit>
+		     <description> 
+                        Yaw Angle.
+                    </description>
+		</Field_Delimited>
+	      </Record_Delimited>
+	</Table_Delimited>
+    </File_Area_Observational>
+</Product_Observational>

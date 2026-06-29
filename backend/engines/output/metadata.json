@@ -1,0 +1,92 @@
+{
+  "dem_shape": [
+    3200,
+    3200
+  ],
+  "pixel_size_m": 5.0,
+  "elevation_range_m": [
+    -523.1834106445312,
+    1959.4962158203125
+  ],
+  "max_slope_deg": 59.450538635253906,
+  "mean_slope_deg": 12.571142196655273,
+  "mean_roughness_m": 0.7957561016082764,
+  "psr_area_pixels": 3935120,
+  "psr_area_km2": 98.378,
+  "dsc_area_pixels": 0,
+  "dsc_area_km2": 0.0,
+  "n_landing_candidates": 5,
+  "landing_candidates": [
+    {
+      "rank": 1,
+      "pixel_y": 406,
+      "pixel_x": 1417,
+      "geo_x": -11912.5,
+      "geo_y": -6032.5,
+      "area_m2": 460675.0,
+      "mean_slope_deg": 2.46,
+      "mean_hazard": 0.183
+    },
+    {
+      "rank": 2,
+      "pixel_y": 192,
+      "pixel_x": 2281,
+      "geo_x": -7592.5,
+      "geo_y": -4962.5,
+      "area_m2": 303100.0,
+      "mean_slope_deg": 2.94,
+      "mean_hazard": 0.198
+    },
+    {
+      "rank": 3,
+      "pixel_y": 506,
+      "pixel_x": 1947,
+      "geo_x": -9262.5,
+      "geo_y": -6532.5,
+      "area_m2": 253975.0,
+      "mean_slope_deg": 2.68,
+      "mean_hazard": 0.19
+    },
+    {
+      "rank": 4,
+      "pixel_y": 219,
+      "pixel_x": 1579,
+      "geo_x": -11102.5,
+      "geo_y": -5097.5,
+      "area_m2": 242075.0,
+      "mean_slope_deg": 2.37,
+      "mean_hazard": 0.191
+    },
+    {
+      "rank": 5,
+      "pixel_y": 625,
+      "pixel_x": 1268,
+      "geo_x": -12657.5,
+      "geo_y": -7127.5,
+      "area_m2": 150875.0,
+      "mean_slope_deg": 2.73,
+      "mean_hazard": 0.194
+    }
+  ],
+  "slope_validation": {
+    "mean_abs_error_deg": 0.2072,
+    "rmse_deg": 0.3834,
+    "correlation": 0.9979,
+    "n_valid_pixels": 10240000
+  },
+  "data_sources": {
+    "dem": "Site01_final_adj_5mpp_surf.tif",
+    "lola_slope": "Site01_final_adj_5mpp_slp.tif",
+    "ohrc_image": "ch2_ohr_ncp_20260103T1005176450_d_img_d18.img",
+    "ohrc_geometry": "ch2_ohr_ncp_20260103T1005176450_g_grd_d18.csv",
+    "solar_params": "ch2_ohr_ncp_20260103T1005176450_d_img_d18.xml"
+  },
+  "solar_elevation_deg": 5.5156,
+  "solar_azimuth_deg": 337.0698,
+  "ohrc_extent": {
+    "lat_min": -85.320925,
+    "lat_max": -84.526014,
+    "lon_min": 22.802526,
+    "lon_max": 27.751481
+  }
+}

@@ -1,0 +1,5 @@
+If there is any tech stack requirements which isn't met lets say a certain dbms to be used isn't installed i want you to either install it or tell me to install it, dont comprise the the tech stack just becuase that  thing isn't availbe.
+For every decision you make which isnt consistent with the blueprint we have in the context folder i want you to log it in a md file named diversions.
+Also i want you to log all the things u have done in a md file named 'work_log' in the context folder
+If during devlopment you make changes/create/delete to the apis i want you to log it in the api.md file in the context folder.
+And after any major work done by the agent i want you to git add and commit in the master branch, unless and untill the user asks you to stop. the commit messages must be concise and in past tense and should get the gist to the reader.
