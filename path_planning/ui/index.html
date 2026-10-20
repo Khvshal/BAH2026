@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>POLARIS — Lunar Rover Path Planning & Telemetry Simulator</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="top-nav">
+      <div class="brand">
+        <div class="logo-pulse"></div>
+        <h1>POLARIS <span>TRAVERSE PLANNER</span></h1>
+        <span class="badge">A* SEARCH & SOLAR TELEMETRY</span>
+      </div>
+      <div class="system-status">
+        <span class="status-indicator"></span>
+        <span id="connection-status">ONLINE (LOCAL API)</span>
+      </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <div class="workspace">
+      <!-- Left Sidebar: Controls & Parameters -->
+      <aside class="sidebar">
+        <div class="panel">
+          <div class="panel-header">
+            <h3>MISSION WAYPOINTS</h3>
+          </div>
+          <div class="panel-body">
+            <div class="form-group">
+              <label for="landing-site-select">START (LANDING SITE):</label>
+              <select id="landing-site-select">
+                <option value="custom">Custom Click on Map</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="science-target-select">GOAL (SCIENCE TARGET):</label>
+              <select id="science-target-select">
+                <option value="custom">Custom Click on Map</option>
+              </select>
+            </div>
+            <div class="coord-inputs">
+              <div class="coord-box">
+                <span>START:</span> <strong id="lbl-start">[46, 51]</strong>
+              </div>
+              <div class="coord-box">
+                <span>GOAL:</span> <strong id="lbl-goal">[174, 143]</strong>
+              </div>
+            </div>
+            <small class="tip">Tip: Click on map to place Start (Left Click) or Goal (Right Click/Shift+Click).</small>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <h3>ALGORITHM & KINEMATICS</h3>
+          </div>
+          <div class="panel-body">
+            <div class="slider-group">
+              <div class="slider-label">
+                <span>Heuristic Weight (w)</span>
+                <span id="val-weight" class="val-badge">1.5</span>
+              </div>
+              <input type="range" id="param-w" min="1.0" max="3.0" step="0.1" value="1.5">
+            </div>
+
+            <div class="slider-group">
+              <div class="slider-label">
+                <span>Max Safe Slope Limit</span>
+                <span id="val-slope" class="val-badge">15.0°</span>
+              </div>
+              <input type="range" id="param-max-slope" min="10" max="25" step="1" value="15">
+            </div>
+
+            <details class="advanced-settings">
+              <summary>Rover Hardware Specifications</summary>
+              <div class="adv-grid">
+                <div class="adv-item">
+                  <label>Battery (Wh):</label>
+                  <input type="number" id="spec-battery" value="500" step="50">
+                </div>
+                <div class="adv-item">
+                  <label>Solar Panel (W):</label>
+                  <input type="number" id="spec-solar" value="150" step="10">
+                </div>
+                <div class="adv-item">
+                  <label>Drive Power (W):</label>
+                  <input type="number" id="spec-drive" value="100" step="10">
+                </div>
+                <div class="adv-item">
+                  <label>Speed (m/s):</label>
+                  <input type="number" id="spec-speed" value="0.10" step="0.02">
+                </div>
+              </div>
+            </details>
+
+            <button id="btn-compute" class="btn primary-btn">
+              <span class="btn-icon">⚡</span> COMPUTE TRAVERSE
+            </button>
+          </div>
+        </div>
+
+        <!-- Mission KPI Summary -->
+        <div class="panel stats-panel">
+          <div class="panel-header">
+            <h3>MISSION KPIS</h3>
+          </div>
+          <div class="panel-body kpi-grid">
+            <div class="kpi-card">
+              <div class="kpi-title">TOTAL DISTANCE</div>
+              <div class="kpi-value" id="kpi-distance">-- m</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-title">TRAVERSE DURATION</div>
+              <div class="kpi-value" id="kpi-time">-- hrs</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-title">MAX INCLINATION</div>
+              <div class="kpi-value" id="kpi-max-slope">--°</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-title">MIN BATTERY SOC</div>
+              <div class="kpi-value" id="kpi-min-soc">-- %</div>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Center Map Viewport -->
+      <main class="center-stage">
+        <div class="map-container">
+          <div class="map-toolbar">
+            <div class="layer-toggles">
+              <button class="layer-btn active" data-layer="elevation">ELEVATION (DEM)</button>
+              <button class="layer-btn" data-layer="slope">SLOPE / HAZARD</button>
+              <button class="layer-btn" data-layer="psr">PSR SHADOW</button>
+            </div>
+            <div class="click-mode-toggle">
+              <span>Click Mode:</span>
+              <button id="mode-start" class="mode-btn active">Set Start</button>
+              <button id="mode-goal" class="mode-btn">Set Goal</button>
+            </div>
+          </div>
+
+          <div class="canvas-wrapper" id="canvas-wrapper">
+            <canvas id="terrain-canvas" width="600" height="600"></canvas>
+            <canvas id="overlay-canvas" width="600" height="600"></canvas>
+          </div>
+
+          <!-- Bottom Playback Timeline -->
+          <div class="playback-bar">
+            <button id="btn-play" class="icon-btn" title="Play/Pause">▶</button>
+            <button id="btn-reset" class="icon-btn" title="Reset">⏮</button>
+            <input type="range" id="timeline-slider" min="0" max="100" value="0">
+            <div class="step-indicator">STEP <span id="current-step">0</span>/<span id="total-steps">0</span></div>
+            <div class="speed-selector">
+              <label>Speed:</label>
+              <select id="playback-speed">
+                <option value="1">1x</option>
+                <option value="2" selected>2x</option>
+                <option value="5">5x</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <!-- Right Panel: Real-time Telemetry & Energy Graphs -->
+      <aside class="telemetry-aside">
+        <div class="panel">
+          <div class="panel-header">
+            <h3>ROVER STATE TELEMETRY</h3>
+            <span id="badge-status" class="status-badge standby">STANDBY</span>
+          </div>
+          <div class="panel-body">
+            <!-- Battery Gauge -->
+            <div class="gauge-container">
+              <div class="gauge-header">
+                <span>BATTERY SOC</span>
+                <strong id="live-soc">100.0%</strong>
+              </div>
+              <div class="progress-track">
+                <div id="soc-bar" class="progress-fill" style="width: 100%;"></div>
+              </div>
+            </div>
+
+            <!-- Solar and Drive Power -->
+            <div class="power-readings">
+              <div class="power-card solar">
+                <span class="power-label">SOLAR HARVEST</span>
+                <div class="power-val" id="live-solar">150.0 W</div>
+                <div class="sub-label" id="live-sunlit">IN DIRECT SUNLIGHT</div>
+              </div>
+              <div class="power-card drive">
+                <span class="power-label">LOCOMOTION DRAW</span>
+                <div class="power-val" id="live-drive">100.0 W</div>
+                <div class="sub-label">SLOPE FACTOR ACTIVE</div>
+              </div>
+            </div>
+
+            <!-- Instant Readouts -->
+            <div class="telemetry-table">
+              <div class="row"><span>Terrain Slope:</span> <strong id="live-slope">0.0°</strong></div>
+              <div class="row"><span>Net Power Flow:</span> <strong id="live-net">+50.0 W</strong></div>
+              <div class="row"><span>Traversed:</span> <strong id="live-dist">0.0 m</strong></div>
+              <div class="row"><span>Mission Time:</span> <strong id="live-time">0.00 h</strong></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Telemetry Profile Graph -->
+        <div class="panel chart-panel">
+          <div class="panel-header">
+            <h3>ENERGY & SOLAR BUDGET PROFILE</h3>
+          </div>
+          <div class="panel-body">
+            <canvas id="chart-canvas" width="380" height="200"></canvas>
+            <div class="chart-legend">
+              <span class="legend-item"><span class="legend-dot green"></span> Battery SoC (%)</span>
+              <span class="legend-item"><span class="legend-dot yellow"></span> Solar In (W)</span>
+              <span class="legend-item"><span class="legend-dot red"></span> Drive Draw (W)</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

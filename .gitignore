@@ -96,6 +96,7 @@ temp/
 *.gif
 *.mp4
 *.webm
+*.npz
 
 # =========================
 # Databases

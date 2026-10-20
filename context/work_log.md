@@ -64,3 +64,20 @@ This document details the step-by-step functionality, technical approaches, and 
 - **Approach:**
   - **Optimization**: Optimized connected components extraction in `db.py` using single-pass numpy unique counts to prevent long startup delays.
   - **Hybrid Storage**: Implemented hybrid data approach where heavy binary assets remain local files while queries, rankings, paths, and volume reports are transactionally managed in PostgreSQL + PostGIS.
+
+### [2026-10-21 00:15] Modular Path Planning Extraction & Visualizer Suite
+- **Functionality Worked On:** Standalone Path Planning Package (`path_planning/`)
+- **Action Taken:**
+  - Extracted and modularized the rover traverse planning components into a dedicated, self-contained directory `path_planning/`.
+  - Built out modular algorithm packages:
+    - `algorithms/cost_map.py`: Multi-factor traversal cost surface (slope mechanical resistance, roughness friction, >15° rollover barrier, illumination reward).
+    - `algorithms/astar.py`: 8-connected Weighted A* graph search with Euclidean heuristics.
+    - `algorithms/smoother.py`: Ramer-Douglas-Peucker (RDP) waypoint simplification & kinematic path resampling.
+    - `algorithms/energy_model.py`: Battery State of Charge (SoC %), uphill drive consumption, solar power generation, and emergency recharge stops.
+  - Developed `data/sample_maps.py`: Dual-mode terrain provider supporting live LOLA/Chandrayaan output files with high-fidelity synthetic polar crater fallback (featuring natural navigable rim ramps).
+  - Built `cli_demo.py`: Command-line runner that executes the full pipeline and outputs formatted mission KPIs alongside a publication-ready 4-panel diagnostic plot (`traverse_plan_result.png`).
+  - Created standalone FastAPI server (`api/server.py`) exposing `/api/health`, `/api/terrain`, and `/api/plan`.
+  - Built an interactive mission-control web visualizer (`ui/index.html`, `ui/style.css`, `ui/app.js`): Map canvas layer switching (Elevation, Slope, PSR), click-to-place start/goal waypoints, hardware parameter tuning, step-by-step rover animation, and real-time battery/power telemetry line charts.
+- **Approach:**
+  - Designed completely decoupled from external databases or heavy 2.5GB raw datasets while remaining 100% compatible with the core POLARIS mathematical formulations.
+

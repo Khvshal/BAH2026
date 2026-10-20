@@ -232,3 +232,57 @@ Enables clients to connect to receive progress JSON updates during execution run
     "message": "Calculating slope and aspect matrices..."
   }
   ```
+
+---
+
+## 8. Standalone Path Planning Microservice (`path_planning/api/server.py`)
+
+* **Binds**: `http://localhost:8500`
+* **Static UI**: `http://localhost:8500/`
+
+### `GET /api/health`
+Health check for standalone service.
+* **Response**: `{"status": "ok", "service": "Lunar Rover Path Planning API"}`
+
+### `GET /api/terrain`
+Returns terrain metadata, landmark options, and base64 preview layers.
+* **Response**:
+  ```json
+  {
+    "grid_shape": [256, 256],
+    "pixel_size_m": 5.0,
+    "landmarks": { "landing_sites": [...], "science_targets": [...] },
+    "layers": { "elevation": "data:image/png;base64,...", "slope": "...", "psr": "..." }
+  }
+  ```
+
+### `POST /api/plan`
+Executes Weighted A* path planning, RDP smoothing, and full solar/energy telemetry.
+* **Request**:
+  ```json
+  {
+    "start": [46, 51],
+    "goal": [158, 130],
+    "w": 1.5,
+    "max_slope": 15.0,
+    "rover_spec": {
+      "battery_wh": 500.0,
+      "solar_panel_w": 150.0,
+      "drive_power_w": 100.0,
+      "speed_m_per_s": 0.1
+    }
+  }
+  ```
+* **Response**:
+  ```json
+  {
+    "raw_path": [[46, 51], ...],
+    "smooth_path": [[46, 51], ...],
+    "telemetry": [...],
+    "total_distance_m": 899.1,
+    "total_time_hours": 2.50,
+    "min_battery_pct": 100.0,
+    "max_slope_deg": 10.0
+  }
+  ```
+
