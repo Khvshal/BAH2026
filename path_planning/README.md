@@ -108,8 +108,9 @@ Then open your browser at:
 
 ### Visualizer Capabilities:
 - **Interactive Map Pinning**: Click anywhere on the map to set Start (green) or Goal (red).
-- **Preset Waypoints**: Select primary Landing Sites (Alpha Ridge, North Plate) and Science Targets (Shoemaker Crater PSR Ice Cache).
-- **Layer Toggles**: Switch between LOLA DEM Elevation, Slope Hazard, and PSR Shadows.
+- **OHRC Optical Photographic Base Layer**: Projects the route directly on lunar surface panchromatic photography (with toggleable translucent $>15^\circ$ slope hazard overlays).
+- **Custom OHRC File Drop**: Simply place any Chandrayaan-2/LROC image as `path_planning/data/ohrc_base.png` (or `.jpg`), and the server will automatically display it. If no file is provided, an authentic Lommel-Seeliger photometric reflectance simulation is generated using the actual Chandrayaan-2 solar geometry ($119.2^\circ$ azimuth, $1.5^\circ$ elevation).
+- **Layer Toggles**: Switch between OHRC Optical, LOLA DEM Elevation, Slope Hazard, and PSR Shadows.
 - **Hardware Parameter Tuning**: Real-time adjustment of Battery Capacity ($Wh$), Solar Panel Peak ($W$), Drive Draw ($W$), Rover Speed ($m/s$), Heuristic Weight ($w$), and Slope Threshold.
 - **Playback Animation**: Scrub or play the rover traverse step-by-step with real-time battery SoC and power balance meters.
 - **Telemetry Graph**: Real-time canvas line chart showing battery discharge and solar generation balance.

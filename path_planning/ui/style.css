@@ -377,10 +377,32 @@ input[type="range"] {
   border-color: var(--accent-cyan);
 }
 
+.map-toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.hazard-toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: #f87171;
+  cursor: pointer;
+  user-select: none;
+}
+
+.hazard-toggle-label input {
+  accent-color: var(--accent-red);
+  cursor: pointer;
+}
+
 .click-mode-toggle {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   font-size: 11px;
   font-family: var(--font-mono);
   color: var(--text-muted);

@@ -81,3 +81,20 @@ This document details the step-by-step functionality, technical approaches, and 
 - **Approach:**
   - Designed completely decoupled from external databases or heavy 2.5GB raw datasets while remaining 100% compatible with the core POLARIS mathematical formulations.
 
+### [2026-10-21 00:45] OHRC Optical Base Layer Integration & Reflectance Modeling
+- **Functionality Worked On:** Real & Photometric OHRC Optical Layer for Path Planning
+- **Action Taken:**
+  - Integrated optical panchromatic base map support into `path_planning/data/sample_maps.py`:
+    - Auto-searches for user-provided Chandrayaan-2/LROC imagery (`path_planning/data/ohrc_base.png`, `.jpg`, `.npy` or `dataset demo/ohrc/...`).
+    - Implemented a physically-accurate lunar photometric reflectance fallback using the Lommel-Seeliger scattering model, incorporating real Chandrayaan-2 solar geometry ($119.2^\circ$ azimuth, $1.5^\circ$ elevation), micro-texture regolith noise, and deep shadows in cold-trap depressions.
+  - Updated `path_planning/api/server.py`:
+    - Added `/api/terrain` support for the base64 OHRC optical layer and real-versus-synthetic provenance metadata (`is_real_ohrc`).
+    - Fixed Pydantic v2 deprecation warning by upgrading from `.dict()` to `.model_dump()`.
+  - Upgraded UI (`ui/index.html`, `ui/style.css`, `ui/app.js`):
+    - Added `OHRC OPTICAL` as the primary base layer.
+    - Added a real-time hazard overlay toggle allowing users to composite translucent $>15^\circ$ steep slope hazard highlights directly over the real optical lunar photography.
+    - Updated CLI 4-panel diagnostic plot (`cli_demo.py`) to render the OHRC optical imagery with hazard and route overlays.
+- **Approach:**
+  - Blends true optical surface photography with quantitative geospatial terrain derivatives to maximize scientific authenticity while maintaining fast browser rendering.
+
+

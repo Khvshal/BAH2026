@@ -137,14 +137,22 @@
         <div class="map-container">
           <div class="map-toolbar">
             <div class="layer-toggles">
-              <button class="layer-btn active" data-layer="elevation">ELEVATION (DEM)</button>
+              <button class="layer-btn active" data-layer="ohrc">📷 OHRC OPTICAL</button>
+              <button class="layer-btn" data-layer="elevation">ELEVATION (DEM)</button>
               <button class="layer-btn" data-layer="slope">SLOPE / HAZARD</button>
               <button class="layer-btn" data-layer="psr">PSR SHADOW</button>
             </div>
-            <div class="click-mode-toggle">
-              <span>Click Mode:</span>
-              <button id="mode-start" class="mode-btn active">Set Start</button>
-              <button id="mode-goal" class="mode-btn">Set Goal</button>
+            <div class="map-toolbar-right">
+              <label class="hazard-toggle-label">
+                <input type="checkbox" id="chk-hazard-overlay" checked>
+                <span>Hazard Mask (>15°)</span>
+              </label>
+              <span id="ohrc-source-badge" class="badge">OHRC OPTICAL</span>
+              <div class="click-mode-toggle">
+                <span>Pin:</span>
+                <button id="mode-start" class="mode-btn active">Start</button>
+                <button id="mode-goal" class="mode-btn">Goal</button>
+              </div>
             </div>
           </div>
 

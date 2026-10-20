@@ -104,14 +104,20 @@ def run_demo(start_coord=None, goal_coord=None, output_image="traverse_plan_resu
     print(f"\n[Plotting] Generating 4-panel diagnostic visualization -> {output_image}")
     fig, axes = plt.subplots(2, 2, figsize=(14, 12), dpi=150)
 
-    # Panel A: Elevation + Rover Path
+    # Panel A: OHRC Optical Imagery + Rover Path
     ax1 = axes[0, 0]
-    im1 = ax1.imshow(elevation, cmap="terrain", origin="upper")
-    ax1.set_title("LOLA DEM Elevation (m) & Planned Route", fontsize=12, fontweight="bold")
-    plt.colorbar(im1, ax=ax1, fraction=0.046, pad=0.04, label="Elevation (m)")
+    ohrc_opt = terrain.get("ohrc_optical", elevation)
+    source_tag = "Real ISRO" if terrain.get("is_real_ohrc") else "Photometric"
+    im1 = ax1.imshow(ohrc_opt, cmap="gray", origin="upper")
+    ax1.set_title(f"OHRC Optical Image ({source_tag}) & Planned Route", fontsize=12, fontweight="bold")
+    plt.colorbar(im1, ax=ax1, fraction=0.046, pad=0.04, label="Reflectance (DN)")
     
     path_r = [p[0] for p in raw_path]
     path_c = [p[1] for p in raw_path]
+    # Overlay subtle hazard mask
+    steep_mask_a = np.ma.masked_where(slope <= 15.0, slope)
+    ax1.imshow(steep_mask_a, cmap="Reds", alpha=0.35, origin="upper")
+
     ax1.plot(path_c, path_r, color="cyan", linewidth=2.5, label="Planned Route")
     ax1.scatter([start[1]], [start[0]], color="lime", s=90, edgecolors="black", zorder=5, label="Start (Landing Site)")
     ax1.scatter([goal[1]], [goal[0]], color="red", s=90, edgecolors="white", marker="*", zorder=5, label="Goal (Science Target)")

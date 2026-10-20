@@ -66,6 +66,14 @@ def array_to_base64_png(arr: np.ndarray, cmap: str = "terrain") -> str:
     return "data:image/png;base64," + base64.b64encode(buf.getvalue()).decode("utf-8")
 
 
+def gray_array_to_base64_png(arr: np.ndarray) -> str:
+    """Converts a 2D uint8 optical grayscale image directly into a base64 PNG."""
+    img = Image.fromarray(arr.astype(np.uint8), mode="L")
+    buf = io.BytesIO()
+    img.save(buf, format="PNG")
+    return "data:image/png;base64," + base64.b64encode(buf.getvalue()).decode("utf-8")
+
+
 # ---------------------------------------------------------------------------
 # Request & Response Schemas
 # ---------------------------------------------------------------------------
@@ -102,17 +110,21 @@ def get_terrain_data():
     elevation = t["elevation"]
     psr = t["psr_mask"]
     pixel_size = t["pixel_size_m"]
+    ohrc_opt = t.get("ohrc_optical")
 
-    # Generate quick layer images
+    # Generate layer images
     elev_png = array_to_base64_png(elevation, cmap="terrain")
     slope_png = array_to_base64_png(slope, cmap="inferno")
     psr_png = array_to_base64_png(psr, cmap="Blues_r")
+    ohrc_png = gray_array_to_base64_png(ohrc_opt) if ohrc_opt is not None else elev_png
 
     return {
         "grid_shape": [int(slope.shape[0]), int(slope.shape[1])],
         "pixel_size_m": pixel_size,
+        "is_real_ohrc": bool(t.get("is_real_ohrc", False)),
         "landmarks": t["landmarks"],
         "layers": {
+            "ohrc": ohrc_png,
             "elevation": elev_png,
             "slope": slope_png,
             "psr": psr_png,
@@ -151,8 +163,8 @@ def plan_route(req: PlanRequest):
     # Path simplification
     smooth_path = smooth_path_rdp(raw_path, epsilon=1.5)
 
-    # Rover spec
-    spec_dict = req.rover_spec.dict() if req.rover_spec else None
+    # Rover spec (Pydantic v2 compliant)
+    spec_dict = req.rover_spec.model_dump() if req.rover_spec else None
     energy_res = compute_energy_profile(
         raw_path,
         slope,

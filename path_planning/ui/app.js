@@ -5,10 +5,10 @@
 
 const state = {
   terrainData: null,
-  activeLayer: "elevation",
+  activeLayer: "ohrc",
   clickMode: "start", // 'start' or 'goal'
   startPt: [46, 51],
-  goalPt: [174, 143],
+  goalPt: [158, 130],
   plan: null,
   currentStep: 0,
   isPlaying: false,
@@ -38,6 +38,7 @@ const scienceSelect = document.getElementById("science-target-select");
 
 // Layer images cache
 const layerImages = {
+  ohrc: new Image(),
   elevation: new Image(),
   slope: new Image(),
   psr: new Image(),
@@ -60,11 +61,24 @@ async function fetchTerrain() {
     state.terrainData = data;
 
     // Load layer images
+    layerImages.ohrc.src = data.layers.ohrc;
     layerImages.elevation.src = data.layers.elevation;
     layerImages.slope.src = data.layers.slope;
     layerImages.psr.src = data.layers.psr;
 
-    layerImages.elevation.onload = () => drawTerrainLayer();
+    layerImages.ohrc.onload = () => drawTerrainLayer();
+
+    const sourceBadge = document.getElementById("ohrc-source-badge");
+    if (sourceBadge) {
+      if (data.is_real_ohrc) {
+        sourceBadge.textContent = "REAL CHANDRAYAAN-2 OHRC";
+        sourceBadge.style.color = "#10b981";
+        sourceBadge.style.borderColor = "#10b981";
+      } else {
+        sourceBadge.textContent = "OHRC LUNAR REFLECTANCE";
+        sourceBadge.style.color = "#38bdf8";
+      }
+    }
 
     // Populate dropdowns
     populateLandmarks(data.landmarks);
@@ -113,9 +127,21 @@ function populateLandmarks(landmarks) {
 // ---------------------------------------------------------------------------
 function drawTerrainLayer() {
   const img = layerImages[state.activeLayer];
+  tCtx.clearRect(0, 0, terrainCanvas.width, terrainCanvas.height);
   if (img && img.complete) {
-    tCtx.clearRect(0, 0, terrainCanvas.width, terrainCanvas.height);
     tCtx.drawImage(img, 0, 0, terrainCanvas.width, terrainCanvas.height);
+  }
+
+  // If hazard overlay is enabled and viewing OHRC or DEM, blend translucent slope hazard
+  const chkHazard = document.getElementById("chk-hazard-overlay");
+  if (chkHazard && chkHazard.checked && (state.activeLayer === "ohrc" || state.activeLayer === "elevation")) {
+    const slopeImg = layerImages.slope;
+    if (slopeImg && slopeImg.complete) {
+      tCtx.save();
+      tCtx.globalAlpha = 0.28;
+      tCtx.drawImage(slopeImg, 0, 0, terrainCanvas.width, terrainCanvas.height);
+      tCtx.restore();
+    }
   }
 }
 
@@ -503,6 +529,12 @@ function setupEventListeners() {
   document.getElementById("param-max-slope").addEventListener("input", (e) => {
     document.getElementById("val-slope").textContent = `${e.target.value}°`;
   });
+
+  // Hazard overlay toggle
+  const chkHazard = document.getElementById("chk-hazard-overlay");
+  if (chkHazard) {
+    chkHazard.addEventListener("change", () => drawTerrainLayer());
+  }
 
   // Compute button
   btnCompute.addEventListener("click", computeRoute);
