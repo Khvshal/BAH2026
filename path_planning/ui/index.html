@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>POLARIS — Lunar Rover Path Planning & Telemetry Simulator</title>
-  <link rel="stylesheet" href="/static/style.css">
+  <link rel="stylesheet" href="/static/style.css?v=3">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -16,7 +16,7 @@
       <div class="brand">
         <div class="logo-pulse"></div>
         <h1>POLARIS <span>TRAVERSE PLANNER</span></h1>
-        <span class="badge">A* SEARCH & SOLAR TELEMETRY</span>
+        <span id="header-algo-badge" class="badge">WEIGHTED A* &amp; SOLAR TELEMETRY</span>
       </div>
       <div class="system-status">
         <span class="status-indicator"></span>
@@ -59,15 +59,38 @@
 
         <div class="panel">
           <div class="panel-header">
-            <h3>ALGORITHM & KINEMATICS</h3>
+            <h3>ALGORITHM &amp; KINEMATICS</h3>
           </div>
           <div class="panel-body">
-            <div class="slider-group">
+            <div class="form-group">
+              <label for="algorithm-select">PLANNING ALGORITHM:</label>
+              <select id="algorithm-select">
+                <option value="astar" selected>Weighted A* (Heuristic Search)</option>
+                <option value="dijkstra">Dijkstra's Algorithm (Cost-Optimal)</option>
+                <option value="bfs">Breadth-First Search (Shortest Hops)</option>
+                <option value="dls">Depth-Limited Search (Bounded DFS)</option>
+                <option value="dfs">Depth-First Search (Deep Exploration)</option>
+              </select>
+              <div id="algo-info-box" class="algo-info-box">
+                <span id="algo-info-tag" class="info-tag">HEURISTIC OPTIMAL</span>
+                <p id="algo-description">Balances traversal cost against Euclidean distance heuristic for fast, safe navigation.</p>
+              </div>
+            </div>
+
+            <div class="slider-group" id="param-w-container">
               <div class="slider-label">
                 <span>Heuristic Weight (w)</span>
                 <span id="val-weight" class="val-badge">1.5</span>
               </div>
               <input type="range" id="param-w" min="1.0" max="3.0" step="0.1" value="1.5">
+            </div>
+
+            <div class="slider-group" id="param-dls-container" style="display: none;">
+              <div class="slider-label">
+                <span>DLS Depth Limit</span>
+                <span id="val-dls-limit" class="val-badge">200 steps</span>
+              </div>
+              <input type="range" id="param-dls-limit" min="25" max="600" step="25" value="200">
             </div>
 
             <div class="slider-group">
@@ -127,6 +150,14 @@
             <div class="kpi-card">
               <div class="kpi-title">MIN BATTERY SOC</div>
               <div class="kpi-value" id="kpi-min-soc">-- %</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-title">NODES EXPANDED</div>
+              <div class="kpi-value" id="kpi-nodes-expanded">--</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-title">COMPUTE TIME</div>
+              <div class="kpi-value" id="kpi-exec-time">-- ms</div>
             </div>
           </div>
         </div>
@@ -240,6 +271,6 @@
     </div>
   </div>
 
-  <script src="/static/app.js"></script>
+  <script src="/static/app.js?v=3"></script>
 </body>
 </html>

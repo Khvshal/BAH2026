@@ -1,14 +1,185 @@
 """
 Weighted A* Pathfinding on 2D Traversal Cost Grids
 =================================================
-Optimized graph search for planetary rover navigation.
-Uses 8-directional kinematics and admissible/weighted heuristics.
+Optimized graph search for planetary rover navigation using an admissible
+or weighted Euclidean distance heuristic over an 8-connected grid.
+
+NOTE ON OPTIMALITY:
+When w = 1.0, A* finds a cost-optimal path (equivalent to Dijkstra with pruning).
+When w > 1.0, Weighted A* trades strict cost-optimality for substantial speedups
+in search convergence and node expansion efficiency.
 """
 
-import heapq
+import time
 import math
-from typing import List, Tuple, Optional
+import heapq
+from typing import List, Tuple, Optional, Dict, Any
 import numpy as np
+
+from .search_common import (
+    SearchResult,
+    validate_endpoints,
+    get_valid_neighbors,
+    reconstruct_path,
+    compute_path_metrics,
+)
+
+
+def astar_search(
+    cost_map: np.ndarray,
+    start: Tuple[int, int],
+    goal: Tuple[int, int],
+    w: float = 1.5,
+    obstacle_threshold: float = 1e5,
+    prevent_corner_cutting: bool = True,
+    pixel_size_m: float = 5.0,
+) -> SearchResult:
+    """
+    Executes Weighted A* search from start to goal.
+
+    Parameters:
+    -----------
+    cost_map : np.ndarray (2D float)
+        Traversal cost surface.
+    start : (row, col)
+        Origin coordinates.
+    goal : (row, col)
+        Target destination coordinates.
+    w : float
+        Heuristic weight (w=1.0 is admissible/optimal, w>1.0 speeds up search).
+    obstacle_threshold : float
+        Cells with cost >= threshold are impassable obstacles.
+    prevent_corner_cutting : bool
+        If True, rejects diagonal steps where either adjacent orthogonal cell is impassable.
+    pixel_size_m : float
+        Grid cell resolution in metres for distance metric.
+
+    Returns:
+    --------
+    SearchResult containing path, metrics, and diagnostics.
+    """
+    t0 = time.perf_counter()
+
+    params: Dict[str, Any] = {
+        "w": float(w),
+        "prevent_corner_cutting": prevent_corner_cutting,
+    }
+
+    is_valid, fail_reason, s, g = validate_endpoints(
+        cost_map, start, goal, obstacle_threshold=obstacle_threshold
+    )
+    if not is_valid:
+        t_ms = (time.perf_counter() - t0) * 1000.0
+        return SearchResult(
+            algorithm="Weighted A*",
+            success=False,
+            failure_reason=fail_reason,
+            execution_time_ms=round(t_ms, 3),
+            parameters=params,
+        )
+
+    # Edge case: start == goal
+    if s == g:
+        t_ms = (time.perf_counter() - t0) * 1000.0
+        return SearchResult(
+            algorithm="Weighted A*",
+            success=True,
+            path=[s],
+            path_length_steps=0,
+            path_distance_m=0.0,
+            terrain_cost=0.0,
+            execution_time_ms=round(t_ms, 3),
+            expanded_nodes=0,
+            generated_nodes=1,
+            peak_frontier_size=1,
+            parameters=params,
+        )
+
+    passable_costs = cost_map[cost_map < obstacle_threshold]
+    min_cost = float(passable_costs.min()) if passable_costs.size > 0 else 1.0
+
+    def heuristic(pos: Tuple[int, int]) -> float:
+        dr = pos[0] - g[0]
+        dc = pos[1] - g[1]
+        return w * min_cost * math.hypot(dr, dc)
+
+    tie_breaker = 0
+    # (f_score, g_score, tie_breaker, (row, col))
+    open_heap: List[Tuple[float, float, int, Tuple[int, int]]] = [
+        (heuristic(s), 0.0, tie_breaker, s)
+    ]
+    g_score: Dict[Tuple[int, int], float] = {s: 0.0}
+    came_from: Dict[Tuple[int, int], Tuple[int, int]] = {}
+    closed = set()
+
+    expanded_nodes = 0
+    generated_nodes = 1
+    peak_frontier_size = 1
+    goal_found = False
+
+    while open_heap:
+        peak_frontier_size = max(peak_frontier_size, len(open_heap))
+        f, g_val, _, curr = heapq.heappop(open_heap)
+
+        if curr in closed:
+            continue
+        closed.add(curr)
+        expanded_nodes += 1
+
+        if curr == g:
+            goal_found = True
+            break
+
+        neighbors = get_valid_neighbors(
+            curr,
+            cost_map,
+            obstacle_threshold=obstacle_threshold,
+            prevent_corner_cutting=prevent_corner_cutting,
+        )
+
+        for n_coord, step_cost, _ in neighbors:
+            if n_coord in closed:
+                continue
+
+            tentative_g = g_val + step_cost
+            if n_coord not in g_score or tentative_g < g_score[n_coord]:
+                g_score[n_coord] = tentative_g
+                came_from[n_coord] = curr
+                f_new = tentative_g + heuristic(n_coord)
+                tie_breaker += 1
+                heapq.heappush(open_heap, (f_new, tentative_g, tie_breaker, n_coord))
+                generated_nodes += 1
+
+    t_ms = (time.perf_counter() - t0) * 1000.0
+
+    if not goal_found:
+        return SearchResult(
+            algorithm="Weighted A*",
+            success=False,
+            failure_reason="UNREACHABLE_GOAL",
+            execution_time_ms=round(t_ms, 3),
+            expanded_nodes=expanded_nodes,
+            generated_nodes=generated_nodes,
+            peak_frontier_size=peak_frontier_size,
+            parameters=params,
+        )
+
+    path = reconstruct_path(came_from, s, g)
+    steps, dist_m, cost = compute_path_metrics(path, cost_map, pixel_size_m=pixel_size_m)
+
+    return SearchResult(
+        algorithm="Weighted A*",
+        success=True,
+        path=path,
+        path_length_steps=steps,
+        path_distance_m=dist_m,
+        terrain_cost=cost,
+        execution_time_ms=round(t_ms, 3),
+        expanded_nodes=expanded_nodes,
+        generated_nodes=generated_nodes,
+        peak_frontier_size=peak_frontier_size,
+        parameters=params,
+    )
 
 
 def weighted_astar(
@@ -17,117 +188,45 @@ def weighted_astar(
     goal: Tuple[int, int],
     w: float = 1.5,
     obstacle_threshold: float = 1e5,
+    auto_relocate: bool = True,
+    prevent_corner_cutting: bool = True,
 ) -> Optional[List[Tuple[int, int]]]:
     """
-    Computes an energy/safety-optimal 2D path between start and goal using Weighted A*.
-
-    Parameters:
-    -----------
-    cost_map : np.ndarray (2D float)
-        Traversability cost per cell.
-    start : (row, col)
-        Start pixel coordinates.
-    goal : (row, col)
-        Target destination pixel coordinates.
-    w : float
-        Heuristic weight (w=1.0 is standard optimal A*, w>1.0 speeds up search).
-    obstacle_threshold : float
-        Cost above which cells are treated as impassable.
-
-    Returns:
-    --------
-    List of (row, col) coordinates representing the path, or None if unreachable.
+    Backwards-compatible public interface returning Optional[List[Tuple[int, int]]].
+    Preserves exact existing behavior for cli_demo.py and api/server.py.
     """
     rows, cols = cost_map.shape
-    start = (int(start[0]), int(start[1]))
-    goal = (int(goal[0]), int(goal[1]))
+    s = (int(start[0]), int(start[1]))
+    g = (int(goal[0]), int(goal[1]))
 
     # Bounds check
-    if not (0 <= start[0] < rows and 0 <= start[1] < cols):
-        raise ValueError(f"Start coordinate {start} is out of map bounds ({rows}, {cols})")
-    if not (0 <= goal[0] < rows and 0 <= goal[1] < cols):
-        raise ValueError(f"Goal coordinate {goal} is out of map bounds ({rows}, {cols})")
+    if not (0 <= s[0] < rows and 0 <= s[1] < cols):
+        raise ValueError(f"Start coordinate {s} is out of map bounds ({rows}, {cols})")
+    if not (0 <= g[0] < rows and 0 <= g[1] < cols):
+        raise ValueError(f"Goal coordinate {g} is out of map bounds ({rows}, {cols})")
 
-    # If start or goal is inside an impassable obstacle, find nearest passable cell
-    def find_nearest_passable(pt: Tuple[int, int]) -> Tuple[int, int]:
-        if cost_map[pt[0], pt[1]] < obstacle_threshold:
+    # If start or goal is blocked, optionally relocate to nearest passable (UI behavior)
+    if auto_relocate:
+        def find_nearest_passable(pt: Tuple[int, int]) -> Tuple[int, int]:
+            if cost_map[pt[0], pt[1]] < obstacle_threshold:
+                return pt
+            for radius in range(1, 20):
+                for dr in range(-radius, radius + 1):
+                    for dc in range(-radius, radius + 1):
+                        nr, nc = pt[0] + dr, pt[1] + dc
+                        if 0 <= nr < rows and 0 <= nc < cols and cost_map[nr, nc] < obstacle_threshold:
+                            return (nr, nc)
             return pt
-        for radius in range(1, 20):
-            for dr in range(-radius, radius + 1):
-                for dc in range(-radius, radius + 1):
-                    nr, nc = pt[0] + dr, pt[1] + dc
-                    if 0 <= nr < rows and 0 <= nc < cols and cost_map[nr, nc] < obstacle_threshold:
-                        return (nr, nc)
-        return pt
 
-    start = find_nearest_passable(start)
-    goal = find_nearest_passable(goal)
+        s = find_nearest_passable(s)
+        g = find_nearest_passable(g)
 
-    passable_costs = cost_map[cost_map < obstacle_threshold]
-    min_cost = float(passable_costs.min()) if passable_costs.size > 0 else 1.0
-
-    def heuristic(pos: Tuple[int, int]) -> float:
-        dr = pos[0] - goal[0]
-        dc = pos[1] - goal[1]
-        return w * min_cost * math.hypot(dr, dc)
-
-    # 8-connected neighbors with geometric step lengths
-    sqrt2 = math.sqrt(2.0)
-    neighbors = [
-        (-1, 0, 1.0),
-        (1, 0, 1.0),
-        (0, -1, 1.0),
-        (0, 1, 1.0),
-        (-1, -1, sqrt2),
-        (-1, 1, sqrt2),
-        (1, -1, sqrt2),
-        (1, 1, sqrt2),
-    ]
-
-    open_heap = []
-    # (f_score, g_score, (r, c))
-    heapq.heappush(open_heap, (heuristic(start), 0.0, start))
-
-    came_from = {}
-    g_score = {start: 0.0}
-    closed = set()
-
-    while open_heap:
-        f, g, current = heapq.heappop(open_heap)
-
-        if current in closed:
-            continue
-        closed.add(current)
-
-        if current == goal:
-            # Reconstruct path
-            path = []
-            curr = current
-            while curr in came_from:
-                path.append(curr)
-                curr = came_from[curr]
-            path.append(start)
-            return path[::-1]
-
-        for dr, dc, dist_mult in neighbors:
-            nr, nc = current[0] + dr, current[1] + dc
-            if not (0 <= nr < rows and 0 <= nc < cols):
-                continue
-            if (nr, nc) in closed:
-                continue
-
-            cell_cost = cost_map[nr, nc]
-            if cell_cost >= obstacle_threshold:
-                continue
-
-            # Traversal step cost
-            step_cost = cell_cost * dist_mult
-            tentative_g = g + step_cost
-
-            if (nr, nc) not in g_score or tentative_g < g_score[(nr, nc)]:
-                g_score[(nr, nc)] = tentative_g
-                came_from[(nr, nc)] = current
-                f_new = tentative_g + heuristic((nr, nc))
-                heapq.heappush(open_heap, (f_new, tentative_g, (nr, nc)))
-
-    return None
+    result = astar_search(
+        cost_map,
+        s,
+        g,
+        w=w,
+        obstacle_threshold=obstacle_threshold,
+        prevent_corner_cutting=prevent_corner_cutting,
+    )
+    return result.path if result.success else None

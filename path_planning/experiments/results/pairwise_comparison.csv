@@ -1,0 +1,136 @@
+pair_id,pair_name,category,algorithm,algorithm_config,both_succeeded,tested_path_valid,distance_ratio_to_dijkstra,terrain_cost_ratio_to_dijkstra,runtime_ratio_to_dijkstra,expanded_nodes_ratio_to_dijkstra
+PAIR_01,Alpha Ridge Local Survey,SHORT,BFS,BFS,True,True,0.2813,2.0275,0.1136,0.0843
+PAIR_01,Alpha Ridge Local Survey,SHORT,DFS,DFS,True,True,260.7646,2295.3764,4.0437,2.7717
+PAIR_01,Alpha Ridge Local Survey,SHORT,Dijkstra,Dijkstra,True,True,1.0,1.0,1.0,1.0
+PAIR_01,Alpha Ridge Local Survey,SHORT,Weighted A*,Weighted A* (w=1.5),True,True,1.0,1.0011,0.2451,0.2159
+PAIR_01,Alpha Ridge Local Survey,SHORT,DLS,DLS (limit=25),True,True,0.4049,2.1433,0.6818,0.8063
+PAIR_01,Alpha Ridge Local Survey,SHORT,DLS,DLS (limit=50),True,True,0.7302,2.448,4.1102,3.2805
+PAIR_01,Alpha Ridge Local Survey,SHORT,DLS,DLS (limit=100),True,True,1.3703,3.0475,8.9255,9.5137
+PAIR_01,Alpha Ridge Local Survey,SHORT,DLS,DLS (limit=200),True,True,2.6824,4.2763,11.7917,13.1005
+PAIR_01,Alpha Ridge Local Survey,SHORT,DLS,DLS (limit=350),False,False,,,28.6636,19.5588
+PAIR_02,North Plate Station Scouting,SHORT,BFS,BFS,True,True,1.0,1.0,0.616,0.657
+PAIR_02,North Plate Station Scouting,SHORT,DFS,DFS,True,True,1182.8584,11790.2813,31.7634,39.1597
+PAIR_02,North Plate Station Scouting,SHORT,Dijkstra,Dijkstra,True,True,1.0,1.0,1.0,1.0
+PAIR_02,North Plate Station Scouting,SHORT,Weighted A*,Weighted A* (w=1.5),True,True,1.0,1.0,0.0805,0.0135
+PAIR_02,North Plate Station Scouting,SHORT,DLS,DLS (limit=25),True,True,1.5347,1.5347,7.6359,9.9684
+PAIR_02,North Plate Station Scouting,SHORT,DLS,DLS (limit=50),True,True,2.8183,2.8183,25.5436,36.1706
+PAIR_02,North Plate Station Scouting,SHORT,DLS,DLS (limit=100),True,True,5.1344,5.1345,41.5658,53.3394
+PAIR_02,North Plate Station Scouting,SHORT,DLS,DLS (limit=200),False,False,,,139.5049,225.6318
+PAIR_02,North Plate Station Scouting,SHORT,DLS,DLS (limit=350),False,False,,,155.8313,225.6318
+PAIR_03,Northwest Breach Approach,SHORT,BFS,BFS,True,True,1.0,1.0531,1.0327,0.9903
+PAIR_03,Northwest Breach Approach,SHORT,DFS,DFS,True,True,111.4883,918.1299,2.1898,2.5112
+PAIR_03,Northwest Breach Approach,SHORT,Dijkstra,Dijkstra,True,True,1.0,1.0,1.0,1.0
+PAIR_03,Northwest Breach Approach,SHORT,Weighted A*,Weighted A* (w=1.5),True,True,1.0,1.0012,0.0308,0.0175
+PAIR_03,Northwest Breach Approach,SHORT,DLS,DLS (limit=25),True,True,1.3446,1.3663,8.4421,13.6004
+PAIR_03,Northwest Breach Approach,SHORT,DLS,DLS (limit=50),True,True,2.4751,2.5182,33.193,52.2599
+PAIR_03,Northwest Breach Approach,SHORT,DLS,DLS (limit=100),True,True,4.6291,21.2144,188.4248,234.1765
+PAIR_03,Northwest Breach Approach,SHORT,DLS,DLS (limit=200),False,False,,,239.0007,242.483
+PAIR_03,Northwest Breach Approach,SHORT,DLS,DLS (limit=350),False,False,,,214.907,242.483
+PAIR_04,Alpha Ridge to Northwest Rim Outcrop,MEDIUM,BFS,BFS,True,True,0.8058,5.8217,0.3768,0.6017
+PAIR_04,Alpha Ridge to Northwest Rim Outcrop,MEDIUM,DFS,DFS,True,True,339.8822,3103.6083,3.6034,4.4661
+PAIR_04,Alpha Ridge to Northwest Rim Outcrop,MEDIUM,Dijkstra,Dijkstra,True,True,1.0,1.0,1.0,1.0
+PAIR_04,Alpha Ridge to Northwest Rim Outcrop,MEDIUM,Weighted A*,Weighted A* (w=1.5),True,True,1.0147,1.0374,0.0376,0.0212
+PAIR_04,Alpha Ridge to Northwest Rim Outcrop,MEDIUM,DLS,DLS (limit=25),False,False,,,2.0882,2.8867
+PAIR_04,Alpha Ridge to Northwest Rim Outcrop,MEDIUM,DLS,DLS (limit=50),True,True,1.1091,6.1153,10.952,14.0712
+PAIR_04,Alpha Ridge to Northwest Rim Outcrop,MEDIUM,DLS,DLS (limit=100),False,False,,,31.2151,32.6669
+PAIR_04,Alpha Ridge to Northwest Rim Outcrop,MEDIUM,DLS,DLS (limit=200),True,True,3.9508,8.8653,19.7949,27.073
+PAIR_04,Alpha Ridge to Northwest Rim Outcrop,MEDIUM,DLS,DLS (limit=350),False,False,,,24.0154,32.6669
+PAIR_05,North Plate to Central Ridge,MEDIUM,BFS,BFS,True,True,0.7327,5.1022,0.1944,0.3498
+PAIR_05,North Plate to Central Ridge,MEDIUM,DFS,DFS,True,True,108.9908,409.5089,0.5525,0.607
+PAIR_05,North Plate to Central Ridge,MEDIUM,Dijkstra,Dijkstra,True,True,1.0,1.0,1.0,1.0
+PAIR_05,North Plate to Central Ridge,MEDIUM,Weighted A*,Weighted A* (w=1.5),True,True,1.0,1.0032,1.1271,0.9217
+PAIR_05,North Plate to Central Ridge,MEDIUM,DLS,DLS (limit=25),False,False,,,0.2071,0.3737
+PAIR_05,North Plate to Central Ridge,MEDIUM,DLS,DLS (limit=50),False,False,,,2.0472,2.7562
+PAIR_05,North Plate to Central Ridge,MEDIUM,DLS,DLS (limit=100),False,False,,,2.7834,4.2288
+PAIR_05,North Plate to Central Ridge,MEDIUM,DLS,DLS (limit=200),False,False,,,2.4656,4.2288
+PAIR_05,North Plate to Central Ridge,MEDIUM,DLS,DLS (limit=350),False,False,,,3.6049,4.2288
+PAIR_06,Northwest Ramp to Crater Floor Mound,MEDIUM,BFS,BFS,True,True,0.8465,6.2769,0.5005,0.6015
+PAIR_06,Northwest Ramp to Crater Floor Mound,MEDIUM,DFS,DFS,True,True,68.9125,485.532,0.2036,0.2246
+PAIR_06,Northwest Ramp to Crater Floor Mound,MEDIUM,Dijkstra,Dijkstra,True,True,1.0,1.0,1.0,1.0
+PAIR_06,Northwest Ramp to Crater Floor Mound,MEDIUM,Weighted A*,Weighted A* (w=1.5),True,True,0.9922,1.0135,0.2191,0.217
+PAIR_06,Northwest Ramp to Crater Floor Mound,MEDIUM,DLS,DLS (limit=25),False,False,,,0.4827,0.6743
+PAIR_06,Northwest Ramp to Crater Floor Mound,MEDIUM,DLS,DLS (limit=50),False,False,,,3.3521,5.19
+PAIR_06,Northwest Ramp to Crater Floor Mound,MEDIUM,DLS,DLS (limit=100),False,False,,,5.5742,7.6306
+PAIR_06,Northwest Ramp to Crater Floor Mound,MEDIUM,DLS,DLS (limit=200),False,False,,,5.0896,7.6306
+PAIR_06,Northwest Ramp to Crater Floor Mound,MEDIUM,DLS,DLS (limit=350),False,False,,,5.9041,7.6306
+PAIR_07,East Terrace Cross-Basin,MEDIUM,BFS,BFS,True,True,1.0,21.9373,1.0741,0.8294
+PAIR_07,East Terrace Cross-Basin,MEDIUM,DFS,DFS,True,True,163.6843,996.0077,1.6849,1.2622
+PAIR_07,East Terrace Cross-Basin,MEDIUM,Dijkstra,Dijkstra,True,True,1.0,1.0,1.0,1.0
+PAIR_07,East Terrace Cross-Basin,MEDIUM,Weighted A*,Weighted A* (w=1.5),True,True,1.0145,1.0137,0.1059,0.0491
+PAIR_07,East Terrace Cross-Basin,MEDIUM,DLS,DLS (limit=25),False,False,,,2.4146,2.9826
+PAIR_07,East Terrace Cross-Basin,MEDIUM,DLS,DLS (limit=50),True,True,1.1386,22.0446,14.5046,13.8886
+PAIR_07,East Terrace Cross-Basin,MEDIUM,DLS,DLS (limit=100),False,False,,,32.222,33.7519
+PAIR_07,East Terrace Cross-Basin,MEDIUM,DLS,DLS (limit=200),False,False,,,30.3904,33.7519
+PAIR_07,East Terrace Cross-Basin,MEDIUM,DLS,DLS (limit=350),False,False,,,39.0095,33.7519
+PAIR_08,Trans-Crater Rim Traverse (North to South),LONG,BFS,BFS,True,True,0.7745,9.7673,0.6292,0.88
+PAIR_08,Trans-Crater Rim Traverse (North to South),LONG,DFS,DFS,True,True,44.183,275.7263,0.4139,0.4855
+PAIR_08,Trans-Crater Rim Traverse (North to South),LONG,Dijkstra,Dijkstra,True,True,1.0,1.0,1.0,1.0
+PAIR_08,Trans-Crater Rim Traverse (North to South),LONG,Weighted A*,Weighted A* (w=1.5),True,True,1.0008,1.0165,1.3009,0.9798
+PAIR_08,Trans-Crater Rim Traverse (North to South),LONG,DLS,DLS (limit=25),False,False,,,0.288,0.3736
+PAIR_08,Trans-Crater Rim Traverse (North to South),LONG,DLS,DLS (limit=50),False,False,,,1.9891,2.5815
+PAIR_08,Trans-Crater Rim Traverse (North to South),LONG,DLS,DLS (limit=100),False,False,,,3.2434,4.2282
+PAIR_08,Trans-Crater Rim Traverse (North to South),LONG,DLS,DLS (limit=200),False,False,,,3.277,4.2282
+PAIR_08,Trans-Crater Rim Traverse (North to South),LONG,DLS,DLS (limit=350),False,False,,,3.0973,4.2282
+PAIR_09,Alpha Ridge to East Terrace Overland,LONG,BFS,BFS,True,True,0.9178,13.2487,1.0355,1.1078
+PAIR_09,Alpha Ridge to East Terrace Overland,LONG,DFS,DFS,True,True,55.8814,487.8756,1.4049,1.1594
+PAIR_09,Alpha Ridge to East Terrace Overland,LONG,Dijkstra,Dijkstra,True,True,1.0,1.0,1.0,1.0
+PAIR_09,Alpha Ridge to East Terrace Overland,LONG,Weighted A*,Weighted A* (w=1.5),True,True,1.0009,1.0524,0.1962,0.1632
+PAIR_09,Alpha Ridge to East Terrace Overland,LONG,DLS,DLS (limit=25),False,False,,,0.427,0.4873
+PAIR_09,Alpha Ridge to East Terrace Overland,LONG,DLS,DLS (limit=50),False,False,,,3.2262,3.7778
+PAIR_09,Alpha Ridge to East Terrace Overland,LONG,DLS,DLS (limit=100),False,False,,,5.613,5.5143
+PAIR_09,Alpha Ridge to East Terrace Overland,LONG,DLS,DLS (limit=200),False,False,,,5.1172,5.5143
+PAIR_09,Alpha Ridge to East Terrace Overland,LONG,DLS,DLS (limit=350),False,False,,,5.7998,5.5143
+PAIR_10,Southwest Highland to Northeast Basin,LONG,BFS,BFS,True,True,0.9112,16.184,0.7216,1.1497
+PAIR_10,Southwest Highland to Northeast Basin,LONG,DFS,DFS,True,True,41.0445,399.3351,0.7238,0.9838
+PAIR_10,Southwest Highland to Northeast Basin,LONG,Dijkstra,Dijkstra,True,True,1.0,1.0,1.0,1.0
+PAIR_10,Southwest Highland to Northeast Basin,LONG,Weighted A*,Weighted A* (w=1.5),True,True,0.9859,1.0399,0.0831,0.0799
+PAIR_10,Southwest Highland to Northeast Basin,LONG,DLS,DLS (limit=25),False,False,,,0.3082,0.4338
+PAIR_10,Southwest Highland to Northeast Basin,LONG,DLS,DLS (limit=50),False,False,,,2.0292,3.0309
+PAIR_10,Southwest Highland to Northeast Basin,LONG,DLS,DLS (limit=100),False,False,,,3.3781,5.0432
+PAIR_10,Southwest Highland to Northeast Basin,LONG,DLS,DLS (limit=200),False,False,,,3.4456,5.0432
+PAIR_10,Southwest Highland to Northeast Basin,LONG,DLS,DLS (limit=350),False,False,,,3.7432,5.0432
+PAIR_11,South Rim Wall Obstacle Detour,OBSTACLE_DETOUR,BFS,BFS,True,True,0.415,4.197,0.2011,0.3403
+PAIR_11,South Rim Wall Obstacle Detour,OBSTACLE_DETOUR,DFS,DFS,True,True,21.9396,72.9982,0.7796,1.0037
+PAIR_11,South Rim Wall Obstacle Detour,OBSTACLE_DETOUR,Dijkstra,Dijkstra,True,True,1.0,1.0,1.0,1.0
+PAIR_11,South Rim Wall Obstacle Detour,OBSTACLE_DETOUR,Weighted A*,Weighted A* (w=1.5),True,True,1.0,1.0029,1.0582,0.9949
+PAIR_11,South Rim Wall Obstacle Detour,OBSTACLE_DETOUR,DLS,DLS (limit=25),False,False,,,0.1311,0.1541
+PAIR_11,South Rim Wall Obstacle Detour,OBSTACLE_DETOUR,DLS,DLS (limit=50),False,False,,,0.9168,1.4085
+PAIR_11,South Rim Wall Obstacle Detour,OBSTACLE_DETOUR,DLS,DLS (limit=100),False,False,,,2.8718,4.1768
+PAIR_11,South Rim Wall Obstacle Detour,OBSTACLE_DETOUR,DLS,DLS (limit=200),False,False,,,4.6334,4.1768
+PAIR_11,South Rim Wall Obstacle Detour,OBSTACLE_DETOUR,DLS,DLS (limit=350),False,False,,,3.2111,4.1768
+PAIR_12,Secondary Crater Bypass Corridor,OBSTACLE_DETOUR,BFS,BFS,True,True,1.0,2.8546,0.1012,0.146
+PAIR_12,Secondary Crater Bypass Corridor,OBSTACLE_DETOUR,DFS,DFS,True,True,329.5812,581.2034,0.5648,0.7272
+PAIR_12,Secondary Crater Bypass Corridor,OBSTACLE_DETOUR,Dijkstra,Dijkstra,True,True,1.0,1.0,1.0,1.0
+PAIR_12,Secondary Crater Bypass Corridor,OBSTACLE_DETOUR,Weighted A*,Weighted A* (w=1.5),True,True,1.0,1.0015,0.3564,0.382
+PAIR_12,Secondary Crater Bypass Corridor,OBSTACLE_DETOUR,DLS,DLS (limit=25),False,False,,,0.3342,0.5211
+PAIR_12,Secondary Crater Bypass Corridor,OBSTACLE_DETOUR,DLS,DLS (limit=50),True,True,1.3239,5.8289,1.2174,1.9617
+PAIR_12,Secondary Crater Bypass Corridor,OBSTACLE_DETOUR,DLS,DLS (limit=100),True,True,2.5134,5.2722,2.7237,4.5089
+PAIR_12,Secondary Crater Bypass Corridor,OBSTACLE_DETOUR,DLS,DLS (limit=200),False,False,,,3.8804,5.8969
+PAIR_12,Secondary Crater Bypass Corridor,OBSTACLE_DETOUR,DLS,DLS (limit=350),False,False,,,4.6429,5.8969
+PAIR_13,Central Mound Steep Gradient Skirt,STEEP_MARGIN,BFS,BFS,True,True,0.7806,14.8535,0.7828,0.6871
+PAIR_13,Central Mound Steep Gradient Skirt,STEEP_MARGIN,DFS,DFS,True,True,48.0543,455.3821,6.8523,3.1283
+PAIR_13,Central Mound Steep Gradient Skirt,STEEP_MARGIN,Dijkstra,Dijkstra,True,True,1.0,1.0,1.0,1.0
+PAIR_13,Central Mound Steep Gradient Skirt,STEEP_MARGIN,Weighted A*,Weighted A* (w=1.5),True,True,1.0085,1.0061,0.0949,0.0715
+PAIR_13,Central Mound Steep Gradient Skirt,STEEP_MARGIN,DLS,DLS (limit=25),False,False,,,0.8378,1.0476
+PAIR_13,Central Mound Steep Gradient Skirt,STEEP_MARGIN,DLS,DLS (limit=50),False,False,,,6.4085,7.4753
+PAIR_13,Central Mound Steep Gradient Skirt,STEEP_MARGIN,DLS,DLS (limit=100),False,False,,,12.4027,13.3847
+PAIR_13,Central Mound Steep Gradient Skirt,STEEP_MARGIN,DLS,DLS (limit=200),False,False,,,10.2996,13.3847
+PAIR_13,Central Mound Steep Gradient Skirt,STEEP_MARGIN,DLS,DLS (limit=350),False,False,,,12.0436,13.3847
+PAIR_14,Shoemaker Deep PSR Penetration,PSR_COLD_TRAP,BFS,BFS,True,True,0.6653,1.6265,0.6092,0.9759
+PAIR_14,Shoemaker Deep PSR Penetration,PSR_COLD_TRAP,DFS,DFS,True,True,38.5177,82.0487,4.4024,6.3792
+PAIR_14,Shoemaker Deep PSR Penetration,PSR_COLD_TRAP,Dijkstra,Dijkstra,True,True,1.0,1.0,1.0,1.0
+PAIR_14,Shoemaker Deep PSR Penetration,PSR_COLD_TRAP,Weighted A*,Weighted A* (w=1.5),True,True,0.9904,1.0004,0.0768,0.0736
+PAIR_14,Shoemaker Deep PSR Penetration,PSR_COLD_TRAP,DLS,DLS (limit=25),False,False,,,0.9268,1.6535
+PAIR_14,Shoemaker Deep PSR Penetration,PSR_COLD_TRAP,DLS,DLS (limit=50),False,False,,,8.9666,14.6298
+PAIR_14,Shoemaker Deep PSR Penetration,PSR_COLD_TRAP,DLS,DLS (limit=100),False,False,,,18.3386,27.933
+PAIR_14,Shoemaker Deep PSR Penetration,PSR_COLD_TRAP,DLS,DLS (limit=200),False,False,,,20.9329,27.933
+PAIR_14,Shoemaker Deep PSR Penetration,PSR_COLD_TRAP,DLS,DLS (limit=350),False,False,,,23.2352,27.933
+PAIR_15,PSR Cross-Shadow Transit,PSR_COLD_TRAP,BFS,BFS,True,True,0.9901,1.3699,0.6043,0.8723
+PAIR_15,PSR Cross-Shadow Transit,PSR_COLD_TRAP,DFS,DFS,True,True,47.1398,57.7928,6.8373,7.3247
+PAIR_15,PSR Cross-Shadow Transit,PSR_COLD_TRAP,Dijkstra,Dijkstra,True,True,1.0,1.0,1.0,1.0
+PAIR_15,PSR Cross-Shadow Transit,PSR_COLD_TRAP,Weighted A*,Weighted A* (w=1.5),True,True,1.0279,1.0026,0.2729,0.2883
+PAIR_15,PSR Cross-Shadow Transit,PSR_COLD_TRAP,DLS,DLS (limit=25),False,False,,,1.2968,1.9085
+PAIR_15,PSR Cross-Shadow Transit,PSR_COLD_TRAP,DLS,DLS (limit=50),True,True,1.0099,1.1033,11.9842,15.7846
+PAIR_15,PSR Cross-Shadow Transit,PSR_COLD_TRAP,DLS,DLS (limit=100),False,False,,,22.5422,31.5816
+PAIR_15,PSR Cross-Shadow Transit,PSR_COLD_TRAP,DLS,DLS (limit=200),False,False,,,24.7917,31.5816
+PAIR_15,PSR Cross-Shadow Transit,PSR_COLD_TRAP,DLS,DLS (limit=350),False,False,,,25.7079,31.5816

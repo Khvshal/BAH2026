@@ -1,0 +1,342 @@
+{
+  "manifest_version": "1.0",
+  "benchmark_title": "Lunar South Pole Rover Path Planning Benchmark",
+  "timestamp": "2026-10-22T18:10:47.688717+00:00",
+  "elapsed_seconds": 293.76,
+  "total_trials": 135,
+  "completed_trials": 135,
+  "successful_trials": 76,
+  "failed_trials": 59,
+  "environment": {
+    "os": "Windows",
+    "os_release": "11",
+    "os_version": "10.0.22631",
+    "architecture": "AMD64",
+    "processor": "Intel64 Family 6 Model 142 Stepping 12, GenuineIntel",
+    "python_version": "3.13.3",
+    "python_compiler": "MSC v.1943 64 bit (AMD64)",
+    "packages": {
+      "numpy": "2.2.5",
+      "scipy": "1.15.3",
+      "matplotlib": "3.10.1",
+      "pandas": "2.2.3",
+      "pillow": "11.2.1"
+    }
+  },
+  "terrain_configuration": {
+    "map_id": "synthetic_polar_crater_256",
+    "grid_shape": [
+      256,
+      256
+    ],
+    "pixel_size_m": 5.0,
+    "max_slope_limit_deg": 15.0,
+    "warning_slope_deg": 10.0,
+    "obstacle_cost_threshold": 100000.0
+  },
+  "evaluated_algorithms": [
+    "BFS",
+    "DFS",
+    "Dijkstra",
+    "Weighted A* (w=1.5)",
+    "DLS (limit=25)",
+    "DLS (limit=50)",
+    "DLS (limit=100)",
+    "DLS (limit=200)",
+    "DLS (limit=350)"
+  ],
+  "benchmark_pairs": [
+    {
+      "id": "PAIR_01",
+      "name": "Alpha Ridge Local Survey",
+      "category": "SHORT",
+      "start": [
+        46,
+        51
+      ],
+      "goal": [
+        58,
+        68
+      ],
+      "description": "Short traverse across gently undulating highland regolith near primary landing site.",
+      "euclidean_distance_cells": 20.81,
+      "euclidean_distance_m": 104.04,
+      "dijkstra_optimal_steps": 69,
+      "dijkstra_optimal_dist_m": 390.563,
+      "dijkstra_optimal_cost": 83.401
+    },
+    {
+      "id": "PAIR_02",
+      "name": "North Plate Station Scouting",
+      "category": "SHORT",
+      "start": [
+        38,
+        199
+      ],
+      "goal": [
+        52,
+        185
+      ],
+      "description": "Short station traverse on northern plateau avoiding localized boulder fields.",
+      "euclidean_distance_cells": 19.8,
+      "euclidean_distance_m": 98.99,
+      "dijkstra_optimal_steps": 14,
+      "dijkstra_optimal_dist_m": 98.995,
+      "dijkstra_optimal_cost": 19.799
+    },
+    {
+      "id": "PAIR_03",
+      "name": "Northwest Breach Approach",
+      "category": "SHORT",
+      "start": [
+        75,
+        70
+      ],
+      "goal": [
+        92,
+        85
+      ],
+      "description": "Short approach along the navigable crater entry ramp on the northwest rim.",
+      "euclidean_distance_cells": 22.67,
+      "euclidean_distance_m": 113.36,
+      "dijkstra_optimal_steps": 17,
+      "dijkstra_optimal_dist_m": 116.066,
+      "dijkstra_optimal_cost": 24.767
+    },
+    {
+      "id": "PAIR_04",
+      "name": "Alpha Ridge to Northwest Rim Outcrop",
+      "category": "MEDIUM",
+      "start": [
+        46,
+        51
+      ],
+      "goal": [
+        81,
+        76
+      ],
+      "description": "Descent from landing ridge towards geologic rim outcrop.",
+      "euclidean_distance_cells": 43.01,
+      "euclidean_distance_m": 215.06,
+      "dijkstra_optimal_steps": 48,
+      "dijkstra_optimal_dist_m": 281.421,
+      "dijkstra_optimal_cost": 58.159
+    },
+    {
+      "id": "PAIR_05",
+      "name": "North Plate to Central Ridge",
+      "category": "MEDIUM",
+      "start": [
+        38,
+        199
+      ],
+      "goal": [
+        85,
+        145
+      ],
+      "description": "Incline transition from northern sunlit plateau down toward northern crater terrace.",
+      "euclidean_distance_cells": 71.59,
+      "euclidean_distance_m": 357.95,
+      "dijkstra_optimal_steps": 169,
+      "dijkstra_optimal_dist_m": 944.411,
+      "dijkstra_optimal_cost": 568.766
+    },
+    {
+      "id": "PAIR_06",
+      "name": "Northwest Ramp to Crater Floor Mound",
+      "category": "MEDIUM",
+      "start": [
+        81,
+        76
+      ],
+      "goal": [
+        134,
+        124
+      ],
+      "description": "Transverse route down the entry ramp to the central crater floor peak.",
+      "euclidean_distance_cells": 71.51,
+      "euclidean_distance_m": 357.53,
+      "dijkstra_optimal_steps": 92,
+      "dijkstra_optimal_dist_m": 532.487,
+      "dijkstra_optimal_cost": 178.49
+    },
+    {
+      "id": "PAIR_07",
+      "name": "East Terrace Cross-Basin",
+      "category": "MEDIUM",
+      "start": [
+        166,
+        225
+      ],
+      "goal": [
+        195,
+        180
+      ],
+      "description": "Southeastern terrace passage skirting secondary crater ejecta mounds.",
+      "euclidean_distance_cells": 53.54,
+      "euclidean_distance_m": 267.68,
+      "dijkstra_optimal_steps": 45,
+      "dijkstra_optimal_dist_m": 285.061,
+      "dijkstra_optimal_cost": 75.005
+    },
+    {
+      "id": "PAIR_08",
+      "name": "Trans-Crater Rim Traverse (North to South)",
+      "category": "LONG",
+      "start": [
+        35,
+        128
+      ],
+      "goal": [
+        220,
+        130
+      ],
+      "description": "Major longitudinal trek navigating around deep crater bowl and southern high-slope rim.",
+      "euclidean_distance_cells": 185.01,
+      "euclidean_distance_m": 925.05,
+      "dijkstra_optimal_steps": 272,
+      "dijkstra_optimal_dist_m": 1560.894,
+      "dijkstra_optimal_cost": 518.061
+    },
+    {
+      "id": "PAIR_09",
+      "name": "Alpha Ridge to East Terrace Overland",
+      "category": "LONG",
+      "start": [
+        46,
+        51
+      ],
+      "goal": [
+        166,
+        225
+      ],
+      "description": "Major diagonal traverse spanning northwestern landing highlands to southeastern terrace.",
+      "euclidean_distance_cells": 211.37,
+      "euclidean_distance_m": 1056.83,
+      "dijkstra_optimal_steps": 236,
+      "dijkstra_optimal_dist_m": 1320.833,
+      "dijkstra_optimal_cost": 264.167
+    },
+    {
+      "id": "PAIR_10",
+      "name": "Southwest Highland to Northeast Basin",
+      "category": "LONG",
+      "start": [
+        215,
+        45
+      ],
+      "goal": [
+        40,
+        210
+      ],
+      "description": "Extreme diagonal corridor through varied slope regimes and highland ridges.",
+      "euclidean_distance_cells": 240.52,
+      "euclidean_distance_m": 1202.6,
+      "dijkstra_optimal_steps": 267,
+      "dijkstra_optimal_dist_m": 1544.178,
+      "dijkstra_optimal_cost": 318.513
+    },
+    {
+      "id": "PAIR_11",
+      "name": "South Rim Wall Obstacle Detour",
+      "category": "OBSTACLE_DETOUR",
+      "start": [
+        180,
+        69
+      ],
+      "goal": [
+        184,
+        161
+      ],
+      "description": "Direct line blocked by steep >15\u00b0 southern rim wall; requires lateral circumvention.",
+      "euclidean_distance_cells": 92.09,
+      "euclidean_distance_m": 460.43,
+      "dijkstra_optimal_steps": 235,
+      "dijkstra_optimal_dist_m": 1425.599,
+      "dijkstra_optimal_cost": 732.187
+    },
+    {
+      "id": "PAIR_12",
+      "name": "Secondary Crater Bypass Corridor",
+      "category": "OBSTACLE_DETOUR",
+      "start": [
+        60,
+        60
+      ],
+      "goal": [
+        75,
+        100
+      ],
+      "description": "Navigates between two hazardous secondary impact craters with slope barriers.",
+      "euclidean_distance_cells": 42.72,
+      "euclidean_distance_m": 213.6,
+      "dijkstra_optimal_steps": 40,
+      "dijkstra_optimal_dist_m": 231.066,
+      "dijkstra_optimal_cost": 245.152
+    },
+    {
+      "id": "PAIR_13",
+      "name": "Central Mound Steep Gradient Skirt",
+      "category": "STEEP_MARGIN",
+      "start": [
+        120,
+        95
+      ],
+      "goal": [
+        145,
+        150
+      ],
+      "description": "Routes past the foot of the central uplift mound where slopes hover near caution limits.",
+      "euclidean_distance_cells": 60.42,
+      "euclidean_distance_m": 302.08,
+      "dijkstra_optimal_steps": 86,
+      "dijkstra_optimal_dist_m": 487.99,
+      "dijkstra_optimal_cost": 135.901
+    },
+    {
+      "id": "PAIR_14",
+      "name": "Shoemaker Deep PSR Penetration",
+      "category": "PSR_COLD_TRAP",
+      "start": [
+        114,
+        119
+      ],
+      "goal": [
+        158,
+        137
+      ],
+      "description": "Enters permanently shadowed cold-trap depression to sample high-probability volatile ice.",
+      "euclidean_distance_cells": 47.54,
+      "euclidean_distance_m": 237.7,
+      "dijkstra_optimal_steps": 82,
+      "dijkstra_optimal_dist_m": 430.711,
+      "dijkstra_optimal_cost": 504.436
+    },
+    {
+      "id": "PAIR_15",
+      "name": "PSR Cross-Shadow Transit",
+      "category": "PSR_COLD_TRAP",
+      "start": [
+        133,
+        103
+      ],
+      "goal": [
+        165,
+        145
+      ],
+      "description": "Traverses deep shadow region requiring energy management against battery depletion.",
+      "euclidean_distance_cells": 52.8,
+      "euclidean_distance_m": 264.01,
+      "dijkstra_optimal_steps": 49,
+      "dijkstra_optimal_dist_m": 296.777,
+      "dijkstra_optimal_cost": 625.372
+    }
+  ],
+  "output_files": {
+    "results_csv": "experiments/results/benchmark_results.csv",
+    "summary_csv": "experiments/results/benchmark_summary.csv",
+    "pairwise_csv": "experiments/results/pairwise_comparison.csv",
+    "report_md": "experiments/results/benchmark_report.md",
+    "figures_dir": "experiments/results/figures/"
+  }
+}

@@ -3,10 +3,54 @@
  * Client-side Controller & Canvas Renderer
  */
 
+const ALGORITHM_METADATA = {
+  astar: {
+    name: "Weighted A*",
+    tag: "HEURISTIC OPTIMAL",
+    description: "Balances traversal cost against Euclidean distance heuristic for fast, safe navigation.",
+    headerBadge: "WEIGHTED A* & SOLAR TELEMETRY",
+    supportsWeight: true,
+    supportsDls: false,
+  },
+  dijkstra: {
+    name: "Dijkstra's Algorithm",
+    tag: "UNIFORM-COST OPTIMAL",
+    description: "Exhaustive uniform-cost search. Guarantees strictly lowest cost path across terrain.",
+    headerBadge: "DIJKSTRA SEARCH & SOLAR TELEMETRY",
+    supportsWeight: false,
+    supportsDls: false,
+  },
+  bfs: {
+    name: "Breadth-First Search (BFS)",
+    tag: "MINIMUM HOP COUNT",
+    description: "Unweighted FIFO search. Finds path with minimal step transitions regardless of cost.",
+    headerBadge: "BFS GRAPH SEARCH & SOLAR TELEMETRY",
+    supportsWeight: false,
+    supportsDls: false,
+  },
+  dls: {
+    name: "Depth-Limited Search (DLS)",
+    tag: "BOUNDED EXPLORATION",
+    description: "Depth-bounded DFS. Explores branch paths up to a specified maximum depth limit.",
+    headerBadge: "DLS SEARCH & SOLAR TELEMETRY",
+    supportsWeight: false,
+    supportsDls: true,
+  },
+  dfs: {
+    name: "Depth-First Search (DFS)",
+    tag: "UNINFORMED DEEP SEARCH",
+    description: "Explores deep into navigable terrain branches. Non-optimal, sensitive to exploration order.",
+    headerBadge: "DFS SEARCH & SOLAR TELEMETRY",
+    supportsWeight: false,
+    supportsDls: false,
+  },
+};
+
 const state = {
   terrainData: null,
   activeLayer: "ohrc",
   clickMode: "start", // 'start' or 'goal'
+  algorithm: "astar",
   startPt: [46, 51],
   goalPt: [158, 130],
   plan: null,
@@ -35,6 +79,7 @@ const playbackSpeedSelect = document.getElementById("playback-speed");
 
 const landingSelect = document.getElementById("landing-site-select");
 const scienceSelect = document.getElementById("science-target-select");
+const algorithmSelect = document.getElementById("algorithm-select");
 
 // Layer images cache
 const layerImages = {
@@ -240,9 +285,12 @@ async function computeRoute() {
   btnCompute.disabled = true;
   btnCompute.innerHTML = `<span class="btn-icon">⏳</span> PLANNING ROUTE...`;
 
+  const dlsInput = document.getElementById("param-dls-limit");
   const payload = {
     start: state.startPt,
     goal: state.goalPt,
+    algorithm: state.algorithm,
+    dls_limit: dlsInput ? parseInt(dlsInput.value, 10) : 200,
     w: parseFloat(document.getElementById("param-w").value),
     max_slope: parseFloat(document.getElementById("param-max-slope").value),
     rover_spec: {
@@ -275,6 +323,16 @@ async function computeRoute() {
     document.getElementById("kpi-time").textContent = `${plan.total_time_hours.toFixed(2)} hrs`;
     document.getElementById("kpi-max-slope").textContent = `${plan.max_slope_deg.toFixed(1)}°`;
     document.getElementById("kpi-min-soc").textContent = `${plan.min_battery_pct.toFixed(1)}%`;
+
+    // Search algorithm metrics
+    const nodesEl = document.getElementById("kpi-nodes-expanded");
+    if (nodesEl) {
+      nodesEl.textContent = plan.search_stats ? `${plan.search_stats.expanded_nodes.toLocaleString()}` : "--";
+    }
+    const execTimeEl = document.getElementById("kpi-exec-time");
+    if (execTimeEl) {
+      execTimeEl.textContent = plan.search_stats ? `${plan.search_stats.execution_time_ms.toFixed(1)} ms` : "--";
+    }
 
     // Configure timeline slider
     const totalSteps = plan.telemetry.length;
@@ -522,12 +580,63 @@ function setupEventListeners() {
     }
   });
 
-  // Slider value badges
-  document.getElementById("param-w").addEventListener("input", (e) => {
+  // Algorithm selection change
+  if (algorithmSelect) {
+    algorithmSelect.addEventListener("change", (e) => {
+      const algoKey = e.target.value;
+      state.algorithm = algoKey;
+      const meta = ALGORITHM_METADATA[algoKey];
+      if (meta) {
+        const infoTag = document.getElementById("algo-info-tag");
+        const infoDesc = document.getElementById("algo-description");
+        const headerBadge = document.getElementById("header-algo-badge");
+        if (infoTag) infoTag.textContent = meta.tag;
+        if (infoDesc) infoDesc.textContent = meta.description;
+        if (headerBadge) headerBadge.textContent = meta.headerBadge;
+
+        // Toggle heuristic weight slider
+        const wContainer = document.getElementById("param-w-container");
+        if (wContainer) {
+          wContainer.style.display = meta.supportsWeight ? "block" : "none";
+        }
+
+        // Toggle DLS depth limit slider
+        const dlsContainer = document.getElementById("param-dls-container");
+        if (dlsContainer) {
+          dlsContainer.style.display = meta.supportsDls ? "block" : "none";
+        }
+      }
+      // Recompute route immediately so the new algorithm's path is drawn instantly
+      computeRoute();
+    });
+  }
+
+  // DLS depth limit slider
+  const dlsSlider = document.getElementById("param-dls-limit");
+  if (dlsSlider) {
+    dlsSlider.addEventListener("input", (e) => {
+      document.getElementById("val-dls-limit").textContent = `${e.target.value} steps`;
+    });
+    dlsSlider.addEventListener("change", () => {
+      computeRoute();
+    });
+  }
+
+  // Slider value badges & recompute on release
+  const paramWInput = document.getElementById("param-w");
+  paramWInput.addEventListener("input", (e) => {
     document.getElementById("val-weight").textContent = e.target.value;
   });
-  document.getElementById("param-max-slope").addEventListener("input", (e) => {
+  paramWInput.addEventListener("change", () => {
+    computeRoute();
+  });
+
+  const paramSlopeInput = document.getElementById("param-max-slope");
+  paramSlopeInput.addEventListener("input", (e) => {
     document.getElementById("val-slope").textContent = `${e.target.value}°`;
+  });
+  paramSlopeInput.addEventListener("change", () => {
+    computeRoute();
   });
 
   // Hazard overlay toggle
